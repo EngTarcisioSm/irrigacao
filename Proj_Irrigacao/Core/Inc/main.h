@@ -58,6 +58,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DOUT_LED_RTC_Pin GPIO_PIN_10
+#define DOUT_LED_RTC_GPIO_Port GPIOB
 #define DOUT_LD_BAT_RTC_Pin GPIO_PIN_12
 #define DOUT_LD_BAT_RTC_GPIO_Port GPIOB
 #define DOUT_LD_BAT_Pin GPIO_PIN_13
