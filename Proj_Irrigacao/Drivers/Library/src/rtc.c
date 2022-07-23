@@ -83,6 +83,9 @@ void vRTC_CreateTaskCheckRTC(void) {
 	}
 }
 
+/**
+ * brief cria task de verificação e configuração do rtc
+ */
 void vRTC_CreateTaskConfigRTC(void) {
 	#ifdef DEBUG_ON
 	vSERIAL_WriteMsg("ConfigRTC", SERIAL_TASK_CREATING);
@@ -97,6 +100,28 @@ void vRTC_CreateTaskConfigRTC(void) {
 			 * @author Task não foi criada, resetar o sistema
 			 */
 		}
+	}
+}
+
+/**
+ * @brief Cria eventgroup de gerencaento de tasks
+ */
+void vRTC_CreateEventgroups(void){
+#ifdef DEBUG_ON
+	vSERIAL_WriteMsg("Event_Group criado", SERIAL_LOG);
+#endif
+	xHandle_Event_Group = xEventGroupCreate();
+}
+
+/**
+ * @brief Cria Queue de transporte de dados do rtc (requisicao de dados)
+ */
+void vRTC_CreateQueueRTCRequest(void) {
+
+	vSERIAL_WriteMsg("QUEUE RequestRTC sendo criada", SERIAL_LOG);
+	if ((xQueueRequestRTC = xQueueCreate(1, sizeof(xInfoRTC*))) == NULL) {
+		vSERIAL_WriteMsg("QUEUE RequestRTC não criada", SERIAL_ERROR);
+		while(1);
 	}
 }
 
@@ -135,7 +160,9 @@ void vRTC_Task_CheckRTC(void *pvParameters) {
 	for (;;) {
 		/*EVENT GROUP DE SOLITICAÇÃO DE DATA DO SISTEMA*/
 		xEventGroupWaitBits(xHandle_Event_Group, REQUEST_RTC, pdTRUE, pdTRUE, portMAX_DELAY);
-
+#ifdef DEBUG_ON
+	vSERIAL_WriteMsg("Obtencao de dados de rtc...", SERIAL_LOG);
+#endif
 		/*OBTENÇÃO DOS DADOS*/
 		HAL_RTC_GetDate(&hrtc, &xReqDate, RTC_FORMAT_BIN);
 		HAL_RTC_GetTime(&hrtc, &xReqTime, RTC_FORMAT_BIN);

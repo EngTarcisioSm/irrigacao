@@ -29,6 +29,8 @@
 
 #include "rtc.h"
 #include "serial.h"
+
+//#include "sys_queues.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -124,7 +126,7 @@ int main(void)
   /**
    * @author: cria queue de requisição de dados do rtc
    */
-  vSYSQUEUES_CreateQueueRTCRequest();
+  vRTC_CreateQueueRTCRequest();
   /* add queues, ... */
 
   /* USER CODE END RTOS_QUEUES */
@@ -148,7 +150,7 @@ int main(void)
   /**
    * @author: event group geral do sistema
    */
-  vSYSEVENTGROUPS_CreateEventgroups();
+  vRTC_CreateEventgroups();
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
@@ -160,6 +162,7 @@ int main(void)
   /**
    * @author inicializacao de tasks
    */
+  vRTC_CreateTaskCheckRTC();
   vRTC_CreateTaskConfigRTC();
 
   vTaskStartScheduler();

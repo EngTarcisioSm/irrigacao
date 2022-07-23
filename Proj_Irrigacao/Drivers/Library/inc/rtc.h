@@ -29,8 +29,8 @@
 #include "event_groups.h"
 
 #include "serial.h"
-#include "sys_eventgroups.h"
-#include "sys_queues.h"
+//#include "sys_eventgroups.h"
+//#include "sys_queues.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +49,8 @@ typedef struct InfoRTC_STUCT {
 /* USER CODE BEGIN PD */
 //#define rtcDEBUG
 #define RTC_DELAY_LED	500
+
+#define REQUEST_RTC		(1 << 0)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -60,7 +62,9 @@ typedef struct InfoRTC_STUCT {
 /* USER CODE BEGIN PV */
 extern RTC_HandleTypeDef hrtc;
 
-extern EventGroupHandle_t xHandle_Event_Group;
+QueueHandle_t xQueueRequestRTC;
+
+static EventGroupHandle_t xHandle_Event_Group;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,6 +72,9 @@ extern EventGroupHandle_t xHandle_Event_Group;
 void vRTC_CreateTaskLed(void);
 void vRTC_CreateTaskCheckRTC(void);
 void vRTC_CreateTaskConfigRTC(void);
+
+void vRTC_CreateEventgroups(void);
+void vRTC_CreateQueueRTCRequest(void);
 
 void vRTC_Task_Led(void *pvParameters);
 void vRTC_Task_CheckRTC(void *pvParameters);
