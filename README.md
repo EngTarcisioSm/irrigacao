@@ -1,5 +1,13 @@
 # PROJETO REPETIDOR 
 
+## 23 07 2022
+- Biblioteca serial para mensagens de sistema criada
+- Criada bibliotecas de 
+    - eventgroup
+    - queue
+- PROBLEMAS: 
+    - o EVENTGROUP esta travando a task de configuração do rtc verificar possivel solução movendo o event groupara pa propria biblioteca do rtc
+
 ## 22 07 2022
 - Fluxograma de configuração do RTC e Alarme 
 - Habilitação do RTC

@@ -1,12 +1,12 @@
 /* USER CODE BEGIN Header */
 /**
- * @file           : serial.h
+ * @file           : sys_eventgroups.h
  * @brief          :
  ******************************************************************************
  * @attention
  *
  * Author:
- * Date: 22/07/2022
+ * Date: 23/07/2022
  *
  * Description:
  *
@@ -15,34 +15,32 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __SERIAL_H
-#define __SERIAL_H
+#ifndef __SYS_EVENTGROUPS_H
+#define __SYS_EVENTGROUPS_H
 
 /* Includes ------------------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "main.h"
-#include "string.h"
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+#include "event_groups.h"
+
+#include "serial.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef enum {
-	SERIAL_LOG = 0,
-	SERIAL_WARNING = 1,
-	SERIAL_ERROR = 2,
-	SERIAL_TASK_CREATING = 3,
-	SERIAL_TASK_CREATED = 4,
-	SERIAL_TASK_ERROR = 5,
-	SERIAL_LOG_DECIMAL = 6,
-	SERIAL_LOG_TASK_STARTED = 7,
-}xSerialTyeMessage_t;
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define serialDEBUG
-#define SERIAL_STM32
+//#define sys_eventgroupsDEBUG
 
+#define REQUEST_RTC		(1 << 0)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -52,15 +50,15 @@ typedef enum {
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-extern UART_HandleTypeDef huart1;
+static EventGroupHandle_t xHandle_Event_Group;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-void vSERIAL_WriteMsg(void *pucMsg, xSerialTyeMessage_t xTypeMsg);
+void vSYSEVENTGROUPS_CreateEventgroups(void);
 /* USER CODE END PFP */
 
 
-#endif /* __SERIAL_H */
+#endif /* __SYS_EVENTGROUPS_H */
 
 /*******************************END OF FILE************************************/

@@ -26,17 +26,29 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "event_groups.h"
+
+#include "serial.h"
+#include "sys_eventgroups.h"
+#include "sys_queues.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+typedef struct InfoRTC_STUCT {
+	uint8_t ucSeconds;
+	uint8_t ucMinutes;
+	uint8_t ucHours;
+	uint8_t ucDay;
+	uint8_t ucMonth;
+	uint8_t ucYear;
+}xInfoRTC;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 //#define rtcDEBUG
-#define RTC_DELAY_LED	250
+#define RTC_DELAY_LED	500
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,14 +58,20 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-extern UART_HandleTypeDef huart1;
+extern RTC_HandleTypeDef hrtc;
+
+extern EventGroupHandle_t xHandle_Event_Group;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
 void vRTC_CreateTaskLed(void);
+void vRTC_CreateTaskCheckRTC(void);
+void vRTC_CreateTaskConfigRTC(void);
 
 void vRTC_Task_Led(void *pvParameters);
+void vRTC_Task_CheckRTC(void *pvParameters);
+void vRTC_Task_ConfigRTC(void *pvParameters);
 /* USER CODE END PFP */
 
 

@@ -65,7 +65,7 @@ void Error_Handler(void);
 #define DOUT_LD_BAT_Pin GPIO_PIN_13
 #define DOUT_LD_BAT_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+#define DEBUG_ON
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
