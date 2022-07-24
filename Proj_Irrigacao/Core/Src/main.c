@@ -30,7 +30,8 @@
 #include "rtc.h"
 #include "serial.h"
 
-//#include "sys_queues.h"
+#include "sys_eventgroup.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -150,7 +151,8 @@ int main(void)
   /**
    * @author: event group geral do sistema
    */
-  vRTC_CreateEventgroups();
+//  vRTC_CreateEventgroups();
+  vSYSEVENTGROUP_CreateEventgroups();
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */

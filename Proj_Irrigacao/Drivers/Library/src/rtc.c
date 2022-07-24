@@ -103,15 +103,30 @@ void vRTC_CreateTaskConfigRTC(void) {
 	}
 }
 
+
 /**
- * @brief Cria eventgroup de gerencaento de tasks
+ * brief cria task de obtenção de dados para configuração do rtc
  */
-void vRTC_CreateEventgroups(void){
-#ifdef DEBUG_ON
-	vSERIAL_WriteMsg("Event_Group criado", SERIAL_LOG);
-#endif
-	xHandle_Event_Group = xEventGroupCreate();
+void vRTC_CreateTaskRequestUserRTC(void) {
+	#ifdef DEBUG_ON
+	vSERIAL_WriteMsg("RequestUserRTC", SERIAL_TASK_CREATING);
+	#endif
+	if ((xTaskCreate(vRTC_Task_RequestUserRTC, "RequestUserRTC", configMINIMAL_STACK_SIZE * 3,
+			NULL, 1, NULL)) != pdTRUE) {
+		#ifdef DEBUG_ON
+		vSERIAL_WriteMsg("RequestUserRTC", SERIAL_TASK_ERROR);
+		#endif
+		while (1) {
+			/**
+			 * @author Task não foi criada, resetar o sistema
+			 */
+		}
+	}
 }
+
+
+
+
 
 /**
  * @brief Cria Queue de transporte de dados do rtc (requisicao de dados)
@@ -213,10 +228,15 @@ void vRTC_Task_ConfigRTC(void *pvParameters) {
 			vSERIAL_WriteMsg("Relogio nao configurado", SERIAL_WARNING);
 			vRTC_CreateTaskLed();
 
+			/**
+			 * @author: chama task que requisita do usuário os dados necessários para a configuracao
+			 */
+			vRTC_CreateTaskRequestUserRTC();
 
-			/*proximos passos*/
-
-
+			/**
+			 * @author: aguarda os dados de configuracao
+			 */
+			xQueueReceive(xQueueRequestRTC, &pxRTC, portMAX_DELAY);
 
 
 			/**
@@ -240,6 +260,28 @@ void vRTC_Task_ConfigRTC(void *pvParameters) {
 
 			vTaskDelete(NULL);
 		}
+	}
+}
+
+/**
+ * @brief rquisita os dados do rtc do usuário
+ */
+void vRTC_Task_RequestUserRTC(void *pvParameters) {
+
+	xInfoRTC xRTC;
+	xInfoRTC *pxRTC = &xRTC;
+
+#ifdef DEBUG_ON
+	vSERIAL_WriteMsg("RequestUserRTC", SERIAL_LOG_TASK_STARTED);
+#endif
+	for(;;) {
+		vSERIAL_WriteMsg("O sistema RTC esta desconfigurado, por favor siga os passos abaixo e configure o sistema\n", SERIAL_WARNING);
+
+		/**
+		 * @author solicitacao de dados para configurar o rtc
+		 */
+
+		vTaskDelay(pdMS_TO_TICKS(2000));
 	}
 }
 /* USER CODE END TASKS FREERTOS */

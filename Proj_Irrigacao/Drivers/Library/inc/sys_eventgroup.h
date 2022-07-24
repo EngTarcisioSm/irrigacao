@@ -1,12 +1,12 @@
 /* USER CODE BEGIN Header */
 /**
- * @file           : rtc.h
+ * @file           : sys_eventgroup.h
  * @brief          :
  ******************************************************************************
  * @attention
  *
  * Author:
- * Date: 21/07/2022
+ * Date: 24/07/2022
  *
  * Description:
  *
@@ -15,8 +15,8 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RTC_H
-#define __RTC_H
+#ifndef __SYS_EVENTGROUP_H
+#define __SYS_EVENTGROUP_H
 
 /* Includes ------------------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -29,28 +29,19 @@
 #include "event_groups.h"
 
 #include "serial.h"
-#include "sys_eventgroup.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef struct InfoRTC_STUCT {
-	uint8_t ucSeconds;
-	uint8_t ucMinutes;
-	uint8_t ucHours;
-	uint8_t ucDay;
-	uint8_t ucMonth;
-	uint8_t ucYear;
-}xInfoRTC;
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define rtcDEBUG
-#define RTC_DELAY_LED	500
+//#define sys_eventgroupDEBUG
 
-//#define REQUEST_RTC		(1 << 0)
+
+#define REQUEST_RTC		(1 << 0)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -60,29 +51,15 @@ typedef struct InfoRTC_STUCT {
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-extern RTC_HandleTypeDef hrtc;
-
-QueueHandle_t xQueueRequestRTC;
-
-extern EventGroupHandle_t xHandle_Event_Group;
+EventGroupHandle_t xHandle_Event_Group;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-void vRTC_CreateTaskLed(void);
-void vRTC_CreateTaskCheckRTC(void);
-void vRTC_CreateTaskConfigRTC(void);
-void vRTC_CreateTaskRequestUserRTC(void);
-
-void vRTC_CreateQueueRTCRequest(void);
-
-void vRTC_Task_Led(void *pvParameters);
-void vRTC_Task_CheckRTC(void *pvParameters);
-void vRTC_Task_ConfigRTC(void *pvParameters);
-void vRTC_Task_RequestUserRTC(void *pvParameters);
+void vSYSEVENTGROUP_CreateEventgroups(void);
 /* USER CODE END PFP */
 
 
-#endif /* __RTC_H */
+#endif /* __SYS_EVENTGROUP_H */
 
 /*******************************END OF FILE************************************/
